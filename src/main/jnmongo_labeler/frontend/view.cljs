@@ -23,19 +23,58 @@
                  "<not selected>"
                  "エクス・アルビオ")}]]]))
 
+(defn getSelected []
+  (cond
+    (js/window.getSelection)
+    ["get" (js/window.getSelection)]
+    (js/document.getSelection)
+    ["get" (js/document.getSelection)]
+    (js/document.selection)
+    ["range" (.. js/document -selection createRange)]
+    :else nil))
+
+(defn view-section [section]
+  (let [original section
+        keywords (r/atom (set []))
+        on-mouse-up-event (fn [] (when-let [[type selection] (getSelected)]
+                                  (swap! keywords conj (str selection))
+                                   ;; (condp = type
+                                   ;;   "get"
+                                   ;;   (let [range (.getRangeAt selection 0)
+                                   ;;         new-node
+                                   ;;         (doto
+                                   ;;             (js/document.createElement "span")
+                                   ;;           (#(set! (.-className %) "selectedText"))
+                                   ;;           (#(set! (.-innerHTML %) (str selection))))]
+                                   ;;     (doto range
+                                   ;;       .deleteContents
+                                   ;;       (.insertNode new-node)))
+                                   ;;   "range"
+                                   ;;   (println "var"))
+                                   ))
+        keywords-list (fn []
+                        [:ul.box {:style {:max-width "200px"}}
+                         (map (fn [k]
+                                [:li [:div.columns
+                                      [:div.column.is-10>p.has-text-justified k]
+                                      [:div.column>button.button.is-info.is-light
+                                       {:on-click #(swap! keywords disj k)} "X"]]])
+                              @keywords)])]
+    [:div.column>div.columns
+     [:div.column.is-four-fifths>div.card>div.card-content
+       {:on-mouse-up on-mouse-up-event}
+      (parser/parse section)]
+     [:div.column
+      [keywords-list]]]))
+
 (defn workspace []
   [:div.columns>div.column.is-8.is-offset-2
    (workspace-title)
    [:div.columns
-    [:div.column.is-four-fifths>div.columns.is-3
-     [:div.column
-      [:p "HTML viewer"]
-      (if-let [contents  @(rf/subscribe [::subs/contents])]
-        [:div (map #(do [:div.card>div.card-content (parser/parse %)])  (:article contents))]
-        [:p "hoge"])]
-     ]
-    [:div.column>div.columns [:div.column "keywords viewer"]]]
-   ])
+    [:div.column.is-four-fifths>p "HTML viewer"]
+    [:div.column>p "keywords viewer"]]
+   (if-let [contents  @(rf/subscribe [::subs/contents])]
+     (map #(view-section %) (:article contents)))])
 
 (defn main []
   [:div

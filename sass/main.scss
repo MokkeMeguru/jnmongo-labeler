@@ -13,3 +13,13 @@ $card-media-margin: 3rem;
 .card-content{
     margin: 1rem;
 }
+
+*::selection {
+    background: SeaGreen;
+    color: White;
+}
+
+.selectedText {
+    background: RoyalBlue;
+    color: White;
+}

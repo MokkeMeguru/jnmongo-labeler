@@ -1,20 +1,23 @@
 (ns jnmongo-labeler.utils.parser
-  (:require [hickory.core :as h]
+  (:require  ;; [hickory.core :as h]
+   [jnmongo-labeler.utils.hickory :as h]
             [hickory.convert :as hc]
-            [hickory.utils :as utils]
-            ))
+            [hickory.utils :as utils]))
 
 
 (defn- render-hickory-attribute
   "Given a map entry m, representing the attribute name and value, returns a
    string representing that key/value pair as it would be rendered into HTML."
   [m]
-  (str " " (name (key m)) "=\"" (utils/html-escape (val m)) "\""))
+  (let [keyword (-> m key name)
+        keyword (if (= keyword "colspan") "col-span" keyword)]
+   (str " " keyword "=\"" (utils/html-escape (val m))  "\"")))
 
 (defn hickory-to-html
   [dom]
   (if (string? dom)
-    (utils/html-escape dom)
+    dom
+    ;; (utils/html-escape dom)
     (case (keyword (:type dom))
       :document
       (apply str (map hickory-to-html (:content dom)))
@@ -68,5 +71,4 @@
                    (hickory-to-html {:type :document :content hick}))))
    first
    last
-   last
-   ))
+   last))

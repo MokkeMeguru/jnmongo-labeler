@@ -7103,3 +7103,11 @@ label.panel-block {
 
 .card-content {
   margin: 1rem; }
+
+*::selection {
+  background: SeaGreen;
+  color: White; }
+
+.selectedText {
+  background: RoyalBlue;
+  color: White; }

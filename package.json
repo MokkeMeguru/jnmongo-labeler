@@ -5,18 +5,17 @@
     "devDependencies": {
         "shadow-cljs": "2.8.93"
     },
-
     "dependencies": {
         "bulma": "^0.8.0",
         "highlight.js": "9.15.10",
+        "html-entities": "^1.2.1",
         "node-sass": "^4.13.1",
         "react": "16.13.0",
         "react-dom": "16.13.0",
         "react-highlight.js": "1.0.7"
     },
-
-    "scripts" : {
-        "css-build": "node-sass --omit-source-map-url -w sass/ -o public/css",
+    "scripts": {
+        "css-build": "node-sass --omit-source-map-url -w sass/[!#]* -o public/css",
         "css-watch": "npm run css-build --watch"
     }
 }
