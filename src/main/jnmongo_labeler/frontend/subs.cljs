@@ -13,3 +13,9 @@
  ::error
  (fn [db]
    (:error db)))
+
+
+(rf/reg-sub
+ ::titles
+ (fn [db]
+   (:titles db)))

@@ -7,11 +7,6 @@ $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
 
 
-*::selection {
-    background: SeaGreen;
-    color: White;
-}
-
 .selectedText {
     background: RoyalBlue;
     color: White;
@@ -19,4 +14,12 @@ $beige-lighter: #EFF0EB;
 
 html {
     font-size: 1.5rem;
+}
+
+.button.is-small {
+    font-size: 0.7rem;
+}
+
+.input.is-small {
+    font-size: 0.7rem;
 }
