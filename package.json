@@ -9,7 +9,7 @@
         "bulma": "^0.8.0",
         "highlight.js": "9.15.10",
         "html-entities": "^1.2.1",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "react": "16.13.0",
         "react-dom": "16.13.0",
         "react-highlight.js": "1.0.7"
